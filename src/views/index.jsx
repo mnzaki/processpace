@@ -1,6 +1,20 @@
-import ProcessingCanvas from './ProcessingCanvas';
+import { ProcessingCanvas } from './ProcessingCanvas';
 
-import main from 'file-loader!../sketches/main.pde'
+import S from 's-js';
+import main from 'file-loader!sketches/main.pde'
+import store from 'store';
 
-export const AppView = () =>
-  <ProcessingCanvas sources={[main]}></ProcessingCanvas>;
+if (!store.sources) {
+  store.sources = S.data([]);
+}
+
+store.sources([main]);
+
+if (module.hot) {
+  module.hot.accept();
+}
+
+export let AppView = () =>
+  <ProcessingCanvas id="main" sources={store.sources}>
+  </ProcessingCanvas>;
+
