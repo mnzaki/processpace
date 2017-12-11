@@ -1,17 +1,30 @@
+import S from 's-js';
 import * as Surplus from 'surplus';
 
 import processingSrc from 'file-loader!processing-js/processing.js'
 
-export default props => {
+export const ProcessingCanvas = props => {
+  if (!props.id) throw new Error('need id!');
+
   let canvas,
     view =
       <div>
-        <canvas ref={canvas}></canvas>
-        <script onLoad={() => Processing.reload()} src={processingSrc}></script>
+        <canvas id={props.id} ref={canvas}></canvas>
+        <script onLoad={onScriptLoad} src={processingSrc}></script>
       </div>;
 
-  canvas.setAttribute('data-processing-sources', props.sources.join(' '));
   return view;
+
+  function onScriptLoad() {
+    S(() => {
+      let sources = props.sources();
+      if (typeof Processing == 'undefined') return;
+
+      Processing.loadSketchFromSources(canvas, sources, pInst => {
+        pInst.live = props.liveData || {};
+      });
+    });
+  }
 }
 
 /*
