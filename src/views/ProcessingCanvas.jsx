@@ -23,6 +23,7 @@ export const ProcessingCanvas = props => {
       Processing.loadSketchFromSources(canvas, sources, pInst => {
         pInst.live = props.liveData || {};
       });
+      Processing.reload();
     });
   }
 }
