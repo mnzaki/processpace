@@ -1,7 +1,7 @@
 export default p => {
   let delta = 10;
 
-  p.live.setDefaults({
+  p.live.$setDefaults({
     x: 10,
     y: 10
   });
