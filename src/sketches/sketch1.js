@@ -7,12 +7,12 @@ export default p => {
   });
 
   p.setup = () => {
-    p.createCanvas(500, 500);
+    p.createLiveCanvas(700, 500);
     p.fill(30);
   };
 
   p.draw = () => {
-    p.background(140);
+    p.background(100, 100, 10, 20);
     p.ellipse(p.live.x, p.live.y*20, 30, 70);
     p.ellipse(p.live.x, p.live.y*p.random(40), 30, 70);
     p.ellipse(p.live.x*4, p.live.y*20, 30, 70);
