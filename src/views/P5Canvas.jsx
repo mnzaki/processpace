@@ -7,7 +7,7 @@ import p5 from 'services/p5';
 const RangeControl = props => {
   return <div>
     {props.value()}
-    <input type="range" {...data(props.value)} min={props.min} max={props.max} />
+    <input type="range" {...data(props.value, 'input')} min={props.min} max={props.max} />
   </div>;
 };
 
