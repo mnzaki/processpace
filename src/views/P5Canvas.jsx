@@ -37,18 +37,15 @@ export const P5Canvas = props => {
 
     Object.keys(inst.live).forEach(key => {
       if (typeof inst.live[key] == 'number') {
-        if (!controls[key]) {
-          controls[key] = controls[key] || S.data(inst.live[key]);
-          S(() => {
-            try {
-              inst.live[key] = parseInt(controls[key]());
-            } catch (e) {
-              console.error(e);
-            }
-          });
-        } else {
-          controls[key](inst.live[key]);
-        }
+        controls[key] = controls[key] || S.data();
+        controls[key](inst.live[key]);
+        S(() => {
+          try {
+            inst.live[key] = parseInt(controls[key]());
+          } catch (e) {
+            console.error(e);
+          }
+        });
       }
     });
     controlKeys(Object.keys(controls));
