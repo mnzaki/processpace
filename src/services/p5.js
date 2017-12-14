@@ -7,18 +7,25 @@ export default function p5Constructor(opts) {
         this[p] = this[p] === undefined ? defs[p] : this[p];
       });
     }
-  }, opts.liveData || {});
+  });
+  if (opts.liveData) {
+    this.live.$setDefaults(opts.liveData);
+  }
+  opts.liveData = this.live;
 
+  let ret = p5.call(this, opts.sketch, opts.container);
+
+  let origRemove = this.remove;
   this.remove = () => {
     // save last frame
     this.live._canvas =
       this.canvas
       .getContext('2d')
-      .getImageData(0, 0, canvas.width, canvas.height);
-    p5.remove.call(this);
+      .getImageData(0, 0, this.canvas.width, this.canvas.height);
+    origRemove.call(this);
   };
 
-  return p5.call(this, opts.sketch, opts.container);
+  return ret;
 }
 
 p5Constructor.prototype = p5.prototype;
