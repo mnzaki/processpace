@@ -5,15 +5,21 @@ import p5 from 'services/p5';
 export const P5Canvas = props => {
   if (!props.id || !props.sketch) throw new Error('need id and sketch!');
 
-  // opts are reused accross calls to maintain live data
-  let cont = <div/>, opts = {
-    sketch: props.sketch(),
-    container: cont
-  };
+  let p5Cont;
+
+  const elem =
+    <div>
+      <div ref={p5Cont}></div>
+    </div>;
+
+  // opts are reused accross instances to maintain live data
+  const opts = { container: p5Cont };
 
   S(() => {
+    opts.sketch = props.sketch();
     let inst = new p5(opts);
     S.cleanup(final => inst.remove());
   });
-  return cont;
+
+  return elem;
 }
