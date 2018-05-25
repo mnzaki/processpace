@@ -3,11 +3,13 @@ import SArray from 's-array';
 import * as Surplus from 'surplus';
 import data from 'surplus-mixin-data';
 import p5 from 'services/p5';
+import midi from 'services/midi';
 
+window.S = S;
 const RangeControl = props => {
   return <div>
-    {props.value()}
-    <input type="range" {...data(props.value, 'input')} min={props.min} max={props.max} />
+    <p>{props.value()}</p>
+    <input type="range" {...data(props.value, 'input')} step={props.step} min={props.min} max={props.max} />
   </div>;
 };
 
@@ -20,8 +22,9 @@ export const P5Canvas = props => {
     <div>
       <div ref={p5Cont}></div>
       {controlKeys.map(k => {
-        return <div>
-          {k} <RangeControl value={controls[k]} />
+        return <div style="float: left">
+          {controls[k].title} <RangeControl step={controls[k].step} min={controls[k].min} max={controls[k].max} value={controls[k].data} />
+          <button onClick={bindMidiControl(k)}>midi input</button>
         </div>;
         })
       }

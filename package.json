@@ -46,6 +46,7 @@
     "webpack-dev-server": "^2.0.0-beta"
   },
   "dependencies": {
+    "bulma": "^0.6.1",
     "p5": "^0.5.16",
     "s-array": "^0.4.9",
     "s-js": "^0.4.7",
