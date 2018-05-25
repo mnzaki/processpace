@@ -61,4 +61,37 @@ export const P5Canvas = props => {
   });
 
   return elem;
+
+  function bindMidiControl(targetKey) {
+    return () => {
+      const control = controls[targetKey];
+      if (control.unbindMidiControl) {
+        control.unbindMidiControl();
+      }
+
+      // TODO show UI indication of 'capture mode'
+
+      midi.captureControl().then(midiControl => {
+        const idx = controlKeys().indexOf(targetKey),
+          newKey = `${targetKey}_midi`,
+          newControl = {
+            title: `${control.title} (midi ${midiControl.title})`,
+            data: control.data,
+            unbindMidiControl: () => {
+              delete controls[newKey];
+              controlKeys.splice(idx, 1, targetKey);
+            }
+          };
+
+        controls[newKey] = newControl;
+        controlKeys.splice(idx, 1, newKey);
+
+        S.root(dispose => {
+          control._dispose = dispose;
+          console.log('root computation evaled');
+          S(() => control.data(midiControl.data()))
+        });
+      });
+    }
+  };
 }

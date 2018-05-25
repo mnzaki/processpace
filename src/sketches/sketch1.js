@@ -12,10 +12,10 @@ export default p => {
   };
 
   p.draw = () => {
-    p.background(100, 100, 10, 20);
+    p.background(10, 100, 10, 20);
     p.ellipse(p.live.x, p.mouseY, 10, 7);
     p.ellipse(p.live.x, p.live.y*p.random(40), 10, 70);
-    p.ellipse(p.width-p.live.x*p.random(2), p.live.y, 30, 70);
+    p.ellipse(p.width-p.live.x*p.random(2), p.live.y - p.mouseY + p.height, 30, 70);
     if (p.live.x > p.mouseX) {
       p.live.x -= absDelta;
     } else {

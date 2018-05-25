@@ -1,4 +1,5 @@
 import p5 from 'p5';
+window.p5 = p5;
 
 export default function p5Constructor(opts) {
   this.live = Object.create({
@@ -37,3 +38,12 @@ p5.prototype.createLiveCanvas = function(width, height, opt) {
     canvas.getContext('2d').putImageData(this.live._canvas, 0, 0);
   }
 };
+
+p5.prototype.persist = function() {
+};
+
+import midi from 'services/midi';
+midi.init();
+p5.prototype.midi = {
+}
+

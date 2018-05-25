@@ -11,6 +11,7 @@ const extractCommons = new webpack.optimize.CommonsChunkPlugin({
 
 const config = {
     context: path.resolve(__dirname, 'src'),
+    devtool: 'eval-source-map',
     entry: {
         index: './index.js',
         uikit: './uikit.js',
