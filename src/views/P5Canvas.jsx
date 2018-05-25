@@ -38,20 +38,26 @@ export const P5Canvas = props => {
     let inst = new p5(opts);
     S.cleanup(final => inst.remove());
 
-    Object.keys(inst.live).forEach(key => {
-      if (typeof inst.live[key] == 'number') {
-        controls[key] = controls[key] || S.data();
-        controls[key](inst.live[key]);
-        S(() => {
-          try {
-            inst.live[key] = parseInt(controls[key]());
-          } catch (e) {
-            console.error(e);
+    if (inst.live.$sliders) {
+      Object.keys(inst.live.$sliders).forEach(key => {
+        if (typeof inst.live[key] == 'number') {
+          controls[key] = controls[key] || { title: key, data: S.data() };
+          const slider = inst.live.$sliders[key];
+          if (slider) {
+            Object.assign(controls[key], slider);
           }
-        });
-      }
-    });
-    controlKeys(Object.keys(controls));
+          controls[key].data(inst.live[key]);
+          S(() => {
+            try {
+              inst.live[key] = parseFloat(controls[key].data());
+            } catch (e) {
+              console.error(e);
+            }
+          });
+        }
+      });
+      controlKeys(Object.keys(controls));
+    }
   });
 
   return elem;
