@@ -39,24 +39,28 @@ export const P5Canvas = props => {
     S.cleanup(final => inst.remove());
 
     if (inst.live.$sliders) {
-      Object.keys(inst.live.$sliders).forEach(key => {
-        if (typeof inst.live[key] == 'number') {
-          controls[key] = controls[key] || { title: key, data: S.data() };
-          const slider = inst.live.$sliders[key];
-          if (slider) {
-            Object.assign(controls[key], slider);
-          }
-          controls[key].data(inst.live[key]);
-          S(() => {
-            try {
-              inst.live[key] = parseFloat(controls[key].data());
-            } catch (e) {
-              console.error(e);
+      inst.updateSliders = () => {
+        Object.keys(inst.live.$sliders).forEach(key => {
+          if (typeof inst.live[key] == 'number') {
+            controls[key] = controls[key] || { title: key, data: S.data() };
+            const slider = inst.live.$sliders[key];
+            if (slider) {
+              Object.assign(controls[key], slider);
             }
-          });
-        }
-      });
-      controlKeys(Object.keys(controls));
+            controls[key].data(inst.live[key]);
+            S(() => {
+              try {
+                inst.live[key] = parseFloat(controls[key].data());
+              } catch (e) {
+                console.error(e);
+              }
+            });
+          }
+        });
+        controlKeys(Object.keys(controls));
+      }
+
+      inst.updateSliders()
     }
   });
 
