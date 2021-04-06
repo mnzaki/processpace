@@ -6,6 +6,7 @@ export default {
   init() {
     if (this.midiAccess) return;
 
+    /*
     navigator.requestMIDIAccess().then(_midiAccess => {
       this.midiAccess = _midiAccess;
       for (let inp of this.midiAccess.inputs.values()) {
@@ -13,6 +14,7 @@ export default {
         console.log(inp);
       }
     });
+    */
   },
 
   handleEvent(evt) {
